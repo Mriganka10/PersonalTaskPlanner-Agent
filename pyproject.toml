@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "personal-task-planner-agent"
+version = "0.1.0"
+description = "A local-first natural-language daily planner with a professional web UI"
+requires-python = ">=3.10"
+dependencies = ["fastapi>=0.115,<1", "uvicorn[standard]>=0.30,<1", "dateparser>=1.2,<2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "httpx>=0.27,<1", "ruff>=0.11,<1"]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.setuptools.package-data]
+app = ["static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 110
