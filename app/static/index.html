@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Daylight — Your personal task planner</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="Daylight home"
+        ><span class="brand-icon">◒</span> daylight<span class="brand-dot"
+          >.</span
+        ></a
+      >
+      <div class="workspace-label">YOUR WORKSPACE</div>
+      <div class="nav-item active">
+        <span>▦</span> Daily planner <span class="nav-indicator"></span>
+      </div>
+      <div class="sidebar-note">
+        <span class="sun">☀</span>
+        <h3>A little structure.<br />A lot more space.</h3>
+        <p>Make room for what matters, one day at a time.</p>
+      </div>
+      <div class="local-status">
+        <i></i> Local workspace <small>Saved in this browser</small>
+      </div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <span
+          >Workspace <span class="slash">/</span>
+          <strong>Daily planner</strong></span
+        ><span class="profile">ME</span>
+      </header>
+      <div class="page">
+        <section class="page-heading">
+          <div>
+            <div class="eyebrow">LESS OVERWHELM. MORE INTENTION.</div>
+            <h1>Make today work for you.</h1>
+            <p>
+              Turn everything on your mind into a plan you can actually follow.
+            </p>
+          </div>
+          <div id="date-label" class="date-label"></div>
+        </section>
+        <div class="dashboard">
+          <div class="left-column">
+            <section class="card capture">
+              <div class="section-heading">
+                <div>
+                  <span class="step">01</span>
+                  <h2>What’s on your mind?</h2>
+                </div>
+                <span class="pill">✦ Smart capture</span>
+              </div>
+              <p class="muted">
+                Write naturally. Include deadlines, times, and how long things
+                take.
+              </p>
+              <label class="sr-only" for="brain-dump">Describe your tasks</label
+              ><textarea
+                id="brain-dump"
+                maxlength="5000"
+                placeholder="I have a SQL assignment tomorrow, gym at 7 PM, and an interview next week. Prepare today’s plan."
+              ></textarea>
+              <div class="capture-footer">
+                <button class="text-button" id="example">
+                  ↗ Try an example</button
+                ><button class="primary" id="extract">
+                  Extract tasks <span>↗</span>
+                </button>
+              </div>
+              <p class="fineprint">
+                No API key needed. Local extraction works best with one task per
+                comma or line. Review inferred details below.
+              </p>
+            </section>
+            <section class="card preferences">
+              <div class="section-heading">
+                <div>
+                  <span class="step">02</span>
+                  <h2>Set your rhythm</h2>
+                </div>
+              </div>
+              <div class="settings-grid">
+                <label
+                  >Planning date<input
+                    id="plan-date"
+                    type="date"
+                    required /></label
+                ><label
+                  >Start your day<input
+                    id="start-time"
+                    type="time"
+                    value="09:00"
+                    required /></label
+                ><label
+                  >Wrap up by<input
+                    id="end-time"
+                    type="time"
+                    value="21:00"
+                    required /></label
+                ><label
+                  >Focus session<select id="focus">
+                    <option value="25">25 minutes</option>
+                    <option value="50" selected>50 minutes</option>
+                    <option value="90">90 minutes</option>
+                  </select></label
+                ><label
+                  >Recharge break<select id="break">
+                    <option value="5">5 minutes</option>
+                    <option value="10" selected>10 minutes</option>
+                    <option value="15">15 minutes</option>
+                  </select></label
+                >
+              </div>
+            </section>
+            <section class="card task-section">
+              <div class="section-heading">
+                <div>
+                  <span class="step">03</span>
+                  <h2>
+                    Your tasks <span id="task-count" class="count">0</span>
+                  </h2>
+                </div>
+                <button class="text-button" id="add-task">＋ Add task</button>
+              </div>
+              <div id="task-list"></div>
+              <div class="task-footer">
+                <span>Deadlines first. Balance always.</span
+                ><button class="primary" id="generate">
+                  Build my day <span>→</span>
+                </button>
+              </div>
+            </section>
+          </div>
+          <section class="card plan-section">
+            <div class="section-heading">
+              <div>
+                <span class="plan-icon">▤</span>
+                <h2>Your daily plan</h2>
+              </div>
+              <span id="plan-status" class="pill neutral"
+                >Ready when you are</span
+              >
+            </div>
+            <p class="muted" id="plan-subtitle">
+              A clear path from to-do to done.
+            </p>
+            <div id="plan-content">
+              <div class="empty-plan">
+                <div class="empty-art">
+                  <span>✓</span>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+                <h3>Give your day a little direction.</h3>
+                <p>
+                  Add your tasks, set your hours,<br />and we’ll connect the
+                  dots.
+                </p>
+                <div class="empty-tags">
+                  <span>Focused work</span><span>Room to breathe</span>
+                </div>
+              </div>
+            </div>
+            <div class="plan-actions" id="plan-actions" hidden>
+              <button id="download" class="secondary">↓ Download plan</button
+              ><button id="print" class="text-button">Print</button>
+            </div>
+          </section>
+        </div>
+        <footer class="page-footer">
+          Built around your day. Adjust as life happens.<button
+            class="text-button"
+            id="reset"
+          >
+            Reset workspace
+          </button>
+        </footer>
+      </div>
+    </main>
+    <div id="notice" role="status" aria-live="polite" hidden></div>
+    <dialog id="task-dialog">
+      <form id="task-form">
+        <div class="section-heading">
+          <h2 id="dialog-title">Add a task</h2>
+          <button
+            type="button"
+            id="close-dialog"
+            class="icon-button"
+            aria-label="Close task editor"
+          >
+            ×
+          </button>
+        </div>
+        <label
+          >Task name<input
+            id="edit-title"
+            maxlength="160"
+            required
+            placeholder="What would you like to do?"
+        /></label>
+        <div class="form-grid">
+          <label
+            >Duration (minutes)<input
+              id="edit-duration"
+              type="number"
+              min="5"
+              max="720"
+              value="60"
+              required /></label
+          ><label
+            >Priority<select id="edit-priority">
+              <option value="high">High</option>
+              <option value="medium" selected>Medium</option>
+              <option value="low">Low</option>
+            </select></label
+          ><label
+            >Deadline (optional)<input id="edit-deadline" type="date" /></label
+          ><label
+            >Fixed start (optional)<input id="edit-time" type="time" /></label
+          ><label
+            >Appointment date<input id="edit-date" type="date" /><small
+              >Used for fixed appointments only.</small
+            ></label
+          >
+        </div>
+        <label
+          >Notes<textarea
+            id="edit-notes"
+            maxlength="1000"
+            rows="3"
+          ></textarea></label
+        ><button type="submit" class="primary full-width">Save task</button>
+      </form>
+    </dialog>
+  </body>
+</html>
